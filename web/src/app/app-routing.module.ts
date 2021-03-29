@@ -8,7 +8,7 @@ import { HomeComponent } from './home/home.component';
 const routes: Routes = [
   { path: '', component: BatchComponent },
   { path: 'batch/create', component: BatchComponent },
-  { path: 'batch/detail', component: BatchDetailComponent },
+  { path: 'batch/status', component: BatchDetailComponent },
   { path: '**', component: HomeComponent }
 ];
 

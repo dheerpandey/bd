@@ -9,6 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { BatchDetailComponent } from './batch-detail/batch-detail.component';
 import { BatchComponent } from './batch/batch.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BatchService } from 'services/batch.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,9 +25,12 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [BatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
