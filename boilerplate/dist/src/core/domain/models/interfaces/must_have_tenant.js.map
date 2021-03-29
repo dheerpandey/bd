@@ -1,0 +1,1 @@
+{"version":3,"file":"must_have_tenant.js","sourceRoot":"","sources":["../../../../../../src/core/domain/models/interfaces/must_have_tenant.ts"],"names":[],"mappings":"","sourcesContent":["export interface IMustHaveTenant {\n    /**\n     * A reference to the tenant the entity belongs\n     *\n     * @type {Ref<Tenant>}\n     * @memberof User\n     */\n    tenant: any;\n}\n"]}

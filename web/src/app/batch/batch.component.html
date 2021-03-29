@@ -1,0 +1,29 @@
+<form>
+  <div class="container">
+    <div class="row mb-3">
+      <label for="batchSize" class="col-sm-2 col-form-label">Batch Size</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="batchSize">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label for="numbersPerBatch" class="col-sm-2 col-form-label">Numbers Per Batch</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="numbersPerBatch">
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-2"></div>
+      <div class="col-sm-8">
+        <button type="submit" class="btn btn-outline-primary">Start New Batch</button>
+        <button type="button" class="btn btn-outline-secondary">Clear Batch</button>
+        <button type="button" class="btn btn-outline-primary">Batch Status</button>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-12">
+        <app-batch-detail></app-batch-detail>
+      </div>
+    </div>
+  </div>
+</form>

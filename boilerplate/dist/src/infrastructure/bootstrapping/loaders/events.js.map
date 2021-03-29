@@ -1,0 +1,1 @@
+{"version":3,"file":"events.js","sourceRoot":"","sources":["../../../../../src/infrastructure/bootstrapping/loaders/events.ts"],"names":[],"mappings":";;AAAA,4BAA4B;AAC5B,wCAAsC","sourcesContent":["// Here we import all events\nimport \"../../../ui/subscribers/user\";\n"]}
