@@ -1,4 +1,4 @@
-# BD Test
+# BD
 
 The purpose of this applicatoin to showcase the business case from BD.
 
