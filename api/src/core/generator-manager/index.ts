@@ -6,7 +6,7 @@ process.on('message', (msg) => {
   generateNumber(msg);
 });
 
-function generateNumber(msg) {
+export function generateNumber(msg) {
   setTimeout(() => {
     if (msg.counter < msg.numbersPerBatch) {
       generateNumber(msg);

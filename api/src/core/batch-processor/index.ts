@@ -57,7 +57,6 @@ function sendToMultiplier(batch: GeneratedNumber) {
 }
 
 mm.on('message', (mmResult: GeneratedNumber) => {
-    // console.log('mmResult=>', typeof mmResult);
     const index = batchQueue.findIndex(i => i.requestId === mmResult.requestId && i.id === mmResult.batchId);
 
     if (index >= 0) {
