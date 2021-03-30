@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { BatchService } from 'services/batch.service';
 import { BatchSummary } from '../models/batch-summary';
 
-
 @Component({
   selector: 'app-batch-detail',
   templateUrl: './batch-detail.component.html',
@@ -29,7 +28,7 @@ export class BatchDetailComponent implements OnInit, OnDestroy {
 
   private loadBatchSummary(): void {
 
-   setInterval(() => {
+    setInterval(() => {
       this.subscriptions.push(this.batchService.GetAll().subscribe(batches => {
         this.batchSummary.batches = batches.map((item) => {
           const processed = item.generatedNumbers.filter(i => i.multiplierNumber).length;
@@ -53,6 +52,6 @@ export class BatchDetailComponent implements OnInit, OnDestroy {
         }
         this.batchSummaryEmitter.emit(this.batchSummary);
       }));
-   }, 2000);
+    }, 2000);
   }
 }
