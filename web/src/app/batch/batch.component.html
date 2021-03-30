@@ -31,9 +31,9 @@
     <div class="row mb-3">
       <div class="col-sm-2"></div>
       <div class="col-sm-8">
-        <button type="submit" [disabled]='batchRequestForm.invalid' class="btn btn-outline-primary">Start New
+        <button type="submit" [disabled]='isDisableBatchStart' class="btn btn-outline-primary">Start New
           Batch</button>
-        <button type="button" (click)="clearBatch()" class="btn btn-outline-secondary">Clear Batch</button>
+        <button type="button" [disabled]='overallStatus === statusEnum.InProcess' (click)="clearBatch()" class="btn btn-outline-secondary">Clear Batch</button>
 
         <a href="#" routerLink="/batch/status" routerLinkActive="active" class="btn btn-outline-primary" tabindex="-1"
           role="button" aria-disabled="true">Show
@@ -42,7 +42,7 @@
     </div>
     <div class="row mb-3">
       <div class="col-sm-12">
-        <app-batch-detail></app-batch-detail>
+        <app-batch-detail (batchSummaryEmitter)="updateBatch($event)"></app-batch-detail>
       </div>
     </div>
   </div>

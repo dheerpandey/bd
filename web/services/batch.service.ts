@@ -24,15 +24,8 @@ export class BatchService {
 
   }
 
-  GetCurrentStatus() {
-    return this.http.get(`${this.baseURL}` + 'current-status');
-  }
-
-  GetAll() {
+  GetAll(): Observable<any> {
     return this.http.get(`${this.baseURL}` + 'get-all');
-  }
-
-  Update() {
   }
 
   Delete() {
