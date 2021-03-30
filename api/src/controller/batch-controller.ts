@@ -14,24 +14,36 @@ batchRouter.get(
 batchRouter.post(
     '/start',
     asyncHandler(async (req, res) => {
-        const batch = await batchProcessor.startBatch(req.body.batchSize, req.body.numbersPerBatch);
-        console.log('BATCH START=>', batch);
-        res.sendStatus(201);
+        try {
+            await batchProcessor.startBatch(req.body.batchSize, req.body.numbersPerBatch);
+            res.sendStatus(201);
+        } catch (error) {
+            res.sendStatus(500);
+        }
+
     })
 );
 
 batchRouter.get(
     '/get-all',
     asyncHandler(async (req, res) => {
-        const batch = await batchProcessor.getAllBatches();
-        res.send(batch);
+        try {
+            const batch = await batchProcessor.getAllBatches();
+            res.send(batch);
+        } catch (error) {
+            res.sendStatus(500);
+        }
     })
 );
 
 batchRouter.delete(
     '/clear-all',
     asyncHandler(async (req, res) => {
-        await batchProcessor.clearBatch();
-        res.sendStatus(200);
+        try {
+            await batchProcessor.clearBatch();
+            res.sendStatus(200);
+        } catch (error) {
+            res.sendStatus(500);
+        }
     })
 );

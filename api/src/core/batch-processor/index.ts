@@ -1,5 +1,4 @@
 import { Batch, BatchRequest, GeneratedNumber } from '../../domain-model';
-import { batchRequestRepository, batchRepository } from '../../repositoties';
 import { fork } from 'child_process';
 import { utility } from '../../utils';
 import { Status } from '../enums/status.enum';
