@@ -1,4 +1,4 @@
-import { Status } from "enums/status.enum";
+import { Status } from 'enums/status.enum';
 
 export interface BatchSummary {
   batches: [{
@@ -12,5 +12,5 @@ export interface BatchSummary {
     totalPending: number,
     totalProcessed: number,
     overallStatus: Status
-  }
+  };
 }

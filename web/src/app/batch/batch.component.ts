@@ -19,8 +19,8 @@ export class BatchComponent implements OnInit {
   constructor(private fb: FormBuilder, public batchService: BatchService) {
     this.isDisableBatchStart = false;
     this.batchRequestForm = fb.group({
-      batchSize: ["", [Validators.required, Validators.min(1), Validators.max(100)]],
-      numbersPerBatch: ["", [Validators.required, Validators.min(1), Validators.max(100)]],
+      batchSize: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
+      numbersPerBatch: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
     });
   }
 
@@ -31,13 +31,13 @@ export class BatchComponent implements OnInit {
     } as BatchRequest;
 
     this.batchService.Add(batchRequest).subscribe(() => {
-      this.message = "Batch created successfully!!";
+      this.message = 'Batch created successfully!!';
     });
 
   }
   clearBatch() {
     this.batchService.Delete().subscribe(() => {
-      this.message = "All data for current batch have been cleared!!";
+      this.message = 'All data for current batch have been cleared!!';
     });
 
   }

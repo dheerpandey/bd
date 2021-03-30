@@ -1,1 +1,0 @@
-{"version":3,"file":"writable.js","sourceRoot":"","sources":["../../../../../src/core/domain/utils/writable.ts"],"names":[],"mappings":";AAAA,oDAAoD","sourcesContent":["// This will allow you to change readonly properties\n\nexport type Writable<T> = {\n    -readonly [K in keyof T]: T[K];\n};\n"]}
