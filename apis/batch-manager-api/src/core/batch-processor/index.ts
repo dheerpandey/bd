@@ -17,28 +17,28 @@ function schedulePooling() {
         subscriptions.push(generatorManagerService.getAll().subscribe((gmResponse: any) => {
             const generatedNumbers = [...(JSON.parse(gmResponse))];
             if (generatedNumbers.length > 0) {
-               // console.log('<<generatedNumbers=>', generatedNumbers);
-                generatedNumbers.forEach(item => {                    
+                // console.log('<<generatedNumbers=>', generatedNumbers);
+                generatedNumbers.forEach(item => {
                     const batchItem = batchQueue.find(i => i.id === item.batchId);
                     const requestItem = requestQueue.find(rq => rq.id === batchItem.requestId);
                     if (batchItem &&
                         batchItem.generatedMultipliers.length < requestItem.numbersPerBatch &&
-                        batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId && i.number === item.number && !i.multiplierNumber).length <=0) {
-                            const tmp1 = batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId && 
-                                i.number !== item.number);
-                            if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch
-                                ) {
-                                batchItem.status = Status.InProcess;
-                                batchItem.generatedMultipliers.push({
-                                    batchId: item.batchId,
-                                    number: item.number
-                                } as GeneratedMultilplier);
+                        batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId && i.number === item.number && !i.multiplierNumber).length <= 0) {
+                        const tmp1 = batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId &&
+                            i.number !== item.number);
+                        if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch
+                        ) {
+                            batchItem.status = Status.InProcess;
+                            batchItem.generatedMultipliers.push({
+                                batchId: item.batchId,
+                                number: item.number
+                            } as GeneratedMultilplier);
 
-                                sendRequestToMultiplier({
-                                    batchId: item.batchId,
-                                    number: item.number
-                                } as MultiplierRequest);
-                            }
+                            sendRequestToMultiplier({
+                                batchId: item.batchId,
+                                number: item.number
+                            } as MultiplierRequest);
+                        }
                     }
                     //  else {
                     //     console.log('Orphan GM Response ', generatedNumbers);
@@ -73,8 +73,8 @@ function schedulePooling() {
             }
             // Update Request Status and Cleanup after processing.
             requestQueue.forEach((requestItem) => {
-                const completedBatch = batchQueue.filter(i =>requestItem.id === i.requestId && i.status === Status.Received);
-                if (completedBatch.length >= requestItem.batchSize ) {
+                const completedBatch = batchQueue.filter(i => requestItem.id === i.requestId && i.status === Status.Received);
+                if (completedBatch.length >= requestItem.batchSize) {
                     requestItem.status = Status.Received;
                 }
             });
@@ -113,7 +113,7 @@ function sendRequestToGenerator(request: GeneratorRequest) {
 
 function sendRequestToMultiplier(request: MultiplierRequest) {
     subscriptions.push(multiplierManagerService.create(request).subscribe((response) => {
-     //   console.log('Multiplier Manager Create Response.', response);
+        //   console.log('Multiplier Manager Create Response.', response);
     }));
 }
 

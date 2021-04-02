@@ -3,7 +3,7 @@ import { createApp } from './create-app';
 const port = process.env.PORT || 8080;
 const app = createApp();
 const server = createServer(app);
-server.listen(port, () => console.log('Batch Manager Listening on port ' + port));
+server.listen(port, () => console.log('Batch Manager Service Listening On Port ' + port));
 
 process.on('SIGINT', () => {
     console.log('SIGINT received ...');
@@ -14,4 +14,8 @@ process.on('SIGINT', () => {
         console.log('Exiting process ...');
         process.exit(0);
     });
+});
+
+process.on('uncaughtException', (err) => {
+    console.log('uncaughtException =>', err);
 });
