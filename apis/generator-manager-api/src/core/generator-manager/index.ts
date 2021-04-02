@@ -9,7 +9,6 @@ process.on('message', (msg) => {
 
 function generateNumber(counter: number, msg: GeneratorRequest) {
   setTimeout(() => {
-   // console.log('generateNumber=>', msg);
     if (counter < msg.numbersPerBatch) {
       const numberObject = {
         batchId: msg.batchId,

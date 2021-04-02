@@ -17,13 +17,17 @@ function schedulePooling() {
         subscriptions.push(generatorManagerService.getAll().subscribe((gmResponse: any) => {
             const generatedNumbers = [...(JSON.parse(gmResponse))];
             if (generatedNumbers.length > 0) {
-                generatedNumbers.forEach(item => {
-                    console.log('generatedNumbers=>', item);
+               // console.log('<<generatedNumbers=>', generatedNumbers);
+                generatedNumbers.forEach(item => {                    
                     const batchItem = batchQueue.find(i => i.id === item.batchId);
-                    if (batchItem) {
-                       // if (batchItem.generatedMultipliers.findIndex(i => i.number === item.number) < 0) {
-                            const requestItem = requestQueue.find(rq => rq.id === batchItem.requestId);
-                            if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch) {
+                    const requestItem = requestQueue.find(rq => rq.id === batchItem.requestId);
+                    if (batchItem &&
+                        batchItem.generatedMultipliers.length < requestItem.numbersPerBatch &&
+                        batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId && i.number === item.number && !i.multiplierNumber).length <=0) {
+                            const tmp1 = batchItem.generatedMultipliers.filter(i => i.batchId === item.batchId && 
+                                i.number !== item.number);
+                            if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch
+                                ) {
                                 batchItem.status = Status.InProcess;
                                 batchItem.generatedMultipliers.push({
                                     batchId: item.batchId,
@@ -35,7 +39,6 @@ function schedulePooling() {
                                     number: item.number
                                 } as MultiplierRequest);
                             }
-                      //  }
                     }
                     //  else {
                     //     console.log('Orphan GM Response ', generatedNumbers);
