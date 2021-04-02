@@ -18,19 +18,23 @@ function schedulePooling() {
             const generatedNumbers = [...(JSON.parse(gmResponse))];
             if (generatedNumbers.length > 0) {
                 generatedNumbers.forEach(item => {
+                  //  console.log('generatedNumbers=>', item.batchId);
                     const batchItem = batchQueue.find(i => i.id === item.batchId);
                     if (batchItem) {
                         batchItem.status = Status.InProcess;
                         if (batchItem.generatedMultipliers.findIndex(i => i.number === item.number) < 0) {
-                            batchItem.generatedMultipliers.push({
-                                batchId: item.batchId,
-                                number: item.number
-                            } as GeneratedMultilplier);
+                            const requestItem = requestQueue.find(rq => rq.id === batchItem.requestId);
+                            if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch) {
+                                batchItem.generatedMultipliers.push({
+                                    batchId: item.batchId,
+                                    number: item.number
+                                } as GeneratedMultilplier);
 
-                            sendRequestToMultiplier({
-                                batchId: item.batchId,
-                                number: item.number
-                            } as MultiplierRequest);
+                                sendRequestToMultiplier({
+                                    batchId: item.batchId,
+                                    number: item.number
+                                } as MultiplierRequest);
+                            }
                         }
                     }
                     //  else {
@@ -59,6 +63,7 @@ function schedulePooling() {
                             batchItem.status = Status.Received;
                             stopAndDoCleanup(); // clear polling & subscription, when all the batch processed.
                         }
+                     //   console.log('batchItem=>', batchItem);
                     } else {
                         console.log(`${item.batchId} Batch Id missing in batchQueue for MM Response => `, generatedMultilpliers);
                     }
@@ -72,14 +77,15 @@ function createNewBatch() {
     requestQueue.filter(i => i.status === Status.Pending).forEach(request => {
         request.status = Status.InProcess;
         for (let index = 0; index < request.batchSize; index++) {
+            const batchId = utility.getBatchId(batchQueue.map(i => i.id));
             batchQueue.push({
                 requestId: request.id,
-                id: utility.getBatchId(batchQueue.map(i => i.id)),
+                id: batchId,
                 generatedMultipliers: [] as unknown as GeneratedMultilplier,
                 status: Status.Pending
             } as unknown as Batch);
             sendRequestToGenerator({
-                batchId: request.id,
+                batchId: batchId,
                 numbersPerBatch: request.numbersPerBatch
             } as GeneratorRequest);
         }
@@ -88,6 +94,7 @@ function createNewBatch() {
 }
 
 function sendRequestToGenerator(request: GeneratorRequest) {
+   // console.log('GeneratorRequest=>',request);
     subscriptions.push(generatorManagerService.create(request).subscribe((response) => {
         console.log('Generator Manager Create Response.', response);
     }));
@@ -120,10 +127,12 @@ function getAll() {
 }
 
 function stopAndDoCleanup() {
-    const receivedBatches = batchQueue.filter((i)=> i.status !== Status.Received);
+    const receivedBatches = batchQueue.filter((i) => i.status !== Status.Received);
     if (receivedBatches.length <= 0) {
-        clearAll(true);
-        console.log('Polling stopped, will start again for a new request...');
+        setTimeout(() => {
+            clearAll(true);
+            console.log('Polling stopped, will start again for a new request...');
+        }, 0);
     }
 }
 
@@ -135,7 +144,7 @@ function clearAll(retainBatches?: boolean) {
             mmGetIntervals.forEach((m) => clearInterval(m));
             if (!retainBatches) {
                 requestQueue.length = 0;
-                batchQueue.length = 0;  
+                batchQueue.length = 0;
             }
         }));
     }));

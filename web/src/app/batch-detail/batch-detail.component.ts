@@ -27,15 +27,14 @@ export class BatchDetailComponent implements OnInit, OnDestroy {
   }
 
   private loadBatchSummary(): void {
-
     setInterval(() => {
       this.subscriptions.push(this.batchService.GetAll().subscribe(batches => {
         this.batchSummary.batches = batches.map((item) => {
-          const processed = item.generatedNumbers.filter(i => i.multiplierNumber).length;
+          const processed = item.generatedMultipliers.filter(i => i.multiplierNumber).length;
           return {
             id: item.id,
             status: item.status,
-            pending: item.generatedNumbers.length - processed,
+            pending: item.generatedMultipliers.length - processed,
             processed,
           }
         });
