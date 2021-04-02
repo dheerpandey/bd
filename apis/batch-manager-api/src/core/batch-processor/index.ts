@@ -18,13 +18,13 @@ function schedulePooling() {
             const generatedNumbers = [...(JSON.parse(gmResponse))];
             if (generatedNumbers.length > 0) {
                 generatedNumbers.forEach(item => {
-                  //  console.log('generatedNumbers=>', item.batchId);
+                    console.log('generatedNumbers=>', item);
                     const batchItem = batchQueue.find(i => i.id === item.batchId);
                     if (batchItem) {
-                        batchItem.status = Status.InProcess;
-                        if (batchItem.generatedMultipliers.findIndex(i => i.number === item.number) < 0) {
+                       // if (batchItem.generatedMultipliers.findIndex(i => i.number === item.number) < 0) {
                             const requestItem = requestQueue.find(rq => rq.id === batchItem.requestId);
                             if (batchItem.generatedMultipliers.length < requestItem.numbersPerBatch) {
+                                batchItem.status = Status.InProcess;
                                 batchItem.generatedMultipliers.push({
                                     batchId: item.batchId,
                                     number: item.number
@@ -35,7 +35,7 @@ function schedulePooling() {
                                     number: item.number
                                 } as MultiplierRequest);
                             }
-                        }
+                      //  }
                     }
                     //  else {
                     //     console.log('Orphan GM Response ', generatedNumbers);
@@ -61,13 +61,22 @@ function schedulePooling() {
                         //All the numbers processed for the batch. 
                         if (batchItem.generatedMultipliers.filter(i => i.number && i.multiplierNumber).length >= requestItem.numbersPerBatch) {
                             batchItem.status = Status.Received;
-                            stopAndDoCleanup(); // clear polling & subscription, when all the batch processed.
                         }
-                     //   console.log('batchItem=>', batchItem);
+                        //   console.log('batchItem=>', batchItem);
                     } else {
                         console.log(`${item.batchId} Batch Id missing in batchQueue for MM Response => `, generatedMultilpliers);
                     }
                 });
+            }
+            // Update Request Status and Cleanup after processing.
+            requestQueue.forEach((requestItem) => {
+                const completedBatch = batchQueue.filter(i =>requestItem.id === i.requestId && i.status === Status.Received);
+                if (completedBatch.length >= requestItem.batchSize ) {
+                    requestItem.status = Status.Received;
+                }
+            });
+            if (requestQueue.filter(i => i.status === Status.Received).length === requestQueue.length) {
+                stopAndDoCleanup(); // clear polling & subscription, when all the batch processed.     
             }
         }));
     }, 2000));
@@ -89,12 +98,11 @@ function createNewBatch() {
                 numbersPerBatch: request.numbersPerBatch
             } as GeneratorRequest);
         }
-        request.status = Status.InProcess;
     });
 }
 
 function sendRequestToGenerator(request: GeneratorRequest) {
-   // console.log('GeneratorRequest=>',request);
+    // console.log('GeneratorRequest=>',request);
     subscriptions.push(generatorManagerService.create(request).subscribe((response) => {
         console.log('Generator Manager Create Response.', response);
     }));
@@ -102,7 +110,7 @@ function sendRequestToGenerator(request: GeneratorRequest) {
 
 function sendRequestToMultiplier(request: MultiplierRequest) {
     subscriptions.push(multiplierManagerService.create(request).subscribe((response) => {
-        console.log('Multiplier Manager Create Response.', response);
+     //   console.log('Multiplier Manager Create Response.', response);
     }));
 }
 
