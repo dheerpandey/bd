@@ -1,6 +1,6 @@
 import { fork } from 'child_process';
-import { GeneratedNumber } from '../domain-model';
-import { NumberRequest } from '../domain-model/number.request.model';
+import { GeneratedNumber } from '../models';
+import { GeneratorRequest } from '../models/generator-request.model';
 
 const gm = fork('./src/core/generator-manager/index.ts');
 
@@ -10,7 +10,7 @@ gm.on('message', (gmResult: GeneratedNumber) => {
     numberQueue.push(gmResult);
 });
 
-function create(request: NumberRequest) {
+function create(request: GeneratorRequest) {
     gm.send({
         batchId: request.batchId,
         numbersPerBatch: request.numbersPerBatch

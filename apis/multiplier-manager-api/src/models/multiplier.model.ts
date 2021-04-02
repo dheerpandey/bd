@@ -1,5 +1,5 @@
 export interface GeneratedMultiplier {
     batchId: number,
-    generatedNumber: number;
+    number: number;
     multiplierNumber: number;
 }

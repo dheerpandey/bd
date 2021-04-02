@@ -20,7 +20,7 @@ export class BatchService {
       })
     };
 
-    return this.http.post(`${this.baseURL}` + 'start', JSON.stringify(batchRequest), this.httpOptions);
+    return this.http.post(`${this.baseURL}` + 'create', JSON.stringify(batchRequest), this.httpOptions);
 
   }
 

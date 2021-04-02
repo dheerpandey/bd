@@ -23,12 +23,13 @@ export class BatchComponent implements OnInit, OnDestroy {
     this.isDisableBatchStart = false;
     this.subscriptions = [];
     this.batchRequestForm = fb.group({
-      batchSize: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
-      numbersPerBatch: ['', [Validators.required, Validators.min(1), Validators.max(100)]],
+      batchSize: ['', [Validators.required, Validators.min(1)]],
+      numbersPerBatch: ['', [Validators.required, Validators.min(1)]],
     });
   }
 
   newBatchRequest() {
+    this.isDisableBatchStart = true;
     const batchRequest = {
       batchSize: this.batchRequestForm.controls.batchSize.value,
       numbersPerBatch: this.batchRequestForm.controls.numbersPerBatch.value

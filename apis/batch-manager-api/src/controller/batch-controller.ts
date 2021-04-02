@@ -15,13 +15,13 @@ batchRouter.get(
 );
 
 batchRouter.post(
-    '/start',
+    '/create',
     asyncHandler(async (req, res) => {
         try {
             const { error } = batchRequestSchema.validate(req.body);
             const valid = error == null;
             if (valid) {
-                batchProcessor.startBatch(req.body.batchSize, req.body.numbersPerBatch);
+                batchProcessor.create(Number(req.body.batchSize), Number(req.body.numbersPerBatch));
                 res.status(201).json({
                     message: 'Batch created successfully!!'
                 });
@@ -43,7 +43,7 @@ batchRouter.get(
     '/get-all',
     asyncHandler(async (req, res) => {
         try {
-            const batch = await batchProcessor.getAllBatches();
+            const batch = await batchProcessor.getAll();
             res.send(batch);
         } catch (error) {
             console.log(error);
@@ -58,7 +58,7 @@ batchRouter.delete(
     '/clear-all',
     asyncHandler(async (req, res) => {
         try {
-            await batchProcessor.clearBatch();
+            await batchProcessor.clearAll();
             
             res.status(200).json({
                 message: 'All data for current batch have been cleared!!'

@@ -2,7 +2,7 @@ import express from 'express';
 import asyncHandler from 'express-async-handler';
 import { numberGeneratorSchema } from '../schemas/number-generator.schema';
 import { numberProcessor } from "../core";
-import { NumberRequest } from '../domain-model/number.request.model';
+import { GeneratorRequest } from "../models/generator-request.model";
 
 export const gmRouter = express.Router();
 gmRouter.get(
@@ -20,9 +20,9 @@ gmRouter.post(
             const valid = error == null;
             if (valid) {
                 numberProcessor.create({
-                    batchId: req.body.batchId,
-                    numbersPerBatch: req.body.numbersPerBatch,
-                } as NumberRequest);
+                    batchId: Number(req.body.batchId),
+                    numbersPerBatch: Number(req.body.numbersPerBatch),
+                } as GeneratorRequest);
                 res.status(201).json({
                     message: 'Request placed successfully!!'
                 });

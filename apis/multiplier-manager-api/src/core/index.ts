@@ -1,5 +1,5 @@
 import { fork } from 'child_process';
-import { MultiplierRequest, GeneratedMultiplier } from '../domain-model';
+import { MultiplierRequest, GeneratedMultiplier } from '../models';
 
 const mm = fork('./src/core/multiplier-manager/index.ts');
 const multiplierQueue: GeneratedMultiplier[] = [];
@@ -11,7 +11,7 @@ mm.on('message', (mmResult: GeneratedMultiplier) => {
 function create(request: MultiplierRequest) {
     mm.send({
         batchId: request.batchId,
-        generatedNumber: request.generatedNumber
+        number: request.number
     } as GeneratedMultiplier);
     return true;
 }

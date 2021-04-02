@@ -1,7 +1,7 @@
 import express from 'express';
 import asyncHandler from 'express-async-handler';
 import { multiplierProcessor } from '../core';
-import { MultiplierRequest } from '../domain-model';
+import { MultiplierRequest } from '../models';
 import { multiplierRequestSchema } from '../schemas/multiplier-request.schema';
 const Joi = require('joi');
 
@@ -23,8 +23,8 @@ multiplierRouter.post(
             const valid = error == null;
             if (valid) {
                 multiplierProcessor.create({
-                    batchId: req.body.batchId,
-                    generatedNumber: req.body.generatedNumber,
+                    batchId: Number(req.body.batchId),
+                    number: Number(req.body.number),
                 } as MultiplierRequest);
                 res.status(201).json({
                     message: 'Request placed successfully!!'

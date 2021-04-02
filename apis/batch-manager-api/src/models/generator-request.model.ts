@@ -1,4 +1,4 @@
-export interface NumberRequest {
+export interface GeneratorRequest {
     batchId: number,
     numbersPerBatch: number;
 }
