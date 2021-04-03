@@ -58,6 +58,6 @@ $ npm run serve
 These commands applies to all the 3 APIs.
 All the three APIs have following endpoints
 1. /create		[POST]
-2. /ping		[POST]
-3. /get-all		[POST]
-4. /clear-all	[POST]
+2. /ping		[GET]
+3. /get-all		[GET]
+4. /clear-all	[GET]
